@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <link rel="stylesheet"
+        type="text/css"
+        href="external/css/home.css">
+
+		
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <div class="left"> 
+                <button type="button" onclick="switch()">Switch</button> 
+
+            </div>
+            
+            <div class="right"> 
+
+                <div class="upper box">
+                    <div> Road 1 </div>
+    
+                    <div class="light"> 
+                        <div class="red" > </div>
+                        <div class="green"> </div>
+                    </div>
+    
+                    <div class="timer"> 
+                        <div class="time" id='countdown'> {{ countdown }} </div>
+                    </div>
+                </div>
+                <div class="lower box">
+                    <div> Road 2 </div>
+    
+                    <div class="light">
+                        <div class="red"> </div>
+                        <div class="green"> </div>    
+                    </div>
+
+                    <div class="timer"> 
+                        <div class="time"> Timer</div>
+                    </div> 
+                </div>
+
+            </div>
+            
+        </div>
+		<script>
+			setInterval(function(){reloader();},1000);
+
+			function reloader(){
+            $.ajax({url: '/readerFunction', 
+                success: function(result){
+                    var res = JSON.parse(result);
+                    document.getElementById('countdown').innerHTML = res['countdown'];
+                    document.getElementById('greenOne').innerHTML = res['greenOne'];
+                    document.getElementById('redOne').innerHTML = res['redOne'];
+                    document.getElementById('greenTwo').innerHTML = res['greenTwo'];
+                    document.getElementById('redTwo').innerHTML = res['redTwo'];
+                }
+            });
+			
+			function switch(){
+				$.ajax({url: '/switch', 
+					success: function(result){}
+				});
+			}
+        }
+		</script>
+    </body>
+</html>

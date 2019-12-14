@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <title>Smart Environment</title>
+    <link type="text/css" href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link type="text/css" href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" />
+    <link type="text/css" href="{% static 'css/nprogress.css' %}" rel="stylesheet" />
+    <link type="text/css" href="{% static 'css/custom.css' %}" rel="stylesheet" />
+  </head>
+
+  <body class="nav-md footer_fixed" style="background-color: #F7F7F7">
+    <!-- page content -->
+    <div class="right_col" role="main">
+      <div style="padding:30px;">
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2><b>Smart Environment</b>: <font id='curDateTime'>{{ curDateTime }}</font></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                  </li>
+                </ul>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                <canvas id="updating-chart" style="height:100%; width:100%;max-height: 300px"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>
+                    <b>Current A</b>:</b><font id='currentA'>{{ currentA }}</font></h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                <h4>
+                <b>Last updated on:</b><br> <font id='curDateTimeA'>{{ curDateTime }}</font><br>
+                <br><b>Previous A: </b><font id='previousA'>{{ previousA }}</font>
+                </h4>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>
+                    <b>Current B:</b><font id='currentB'>{{ currentB }}</font></h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                <h4>
+                <b>Last updated on:</b><br> <font id='curDateTimeB'>{{ curDateTime }}</font><br>
+                <br><b>Previous B: </b><font id='previousB'>{{ previousB }}</font>
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <!-- page content -->
+
+    <script type='text/javascript' src="{% static 'js/jquery.min.js' %}" ></script>
+    <script type='text/javascript' src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type='text/javascript' src="{% static 'js/fastclick.js' %}"></script>
+    <script type='text/javascript' src="{% static 'js/nprogress.js' %}"></script>
+    <script type='text/javascript' src="{% static 'js/chart.min.js' %}"></script>
+    <script type='text/javascript' src="{% static 'js/custom.min.js' %}"></script>
+    <script>
+        setInterval(function(){reloader();},1000);
+
+        function reloader(){
+            $.ajax({url: '/getCurrentValue', 
+                success: function(result){
+                    var res = JSON.parse(result);
+                    document.getElementById('curDateTime').innerHTML = res['curDateTime'];
+                    document.getElementById('curDateTimeA').innerHTML = res['curDateTime'];
+                    document.getElementById('curDateTimeB').innerHTML = res['curDateTime'];
+                    
+                    document.getElementById('currentA').innerHTML = res['currentA'];
+                    document.getElementById('currentB').innerHTML = res['currentB'];
+
+                    document.getElementById('previousA').innerHTML = res['previousA'];
+                    document.getElementById('previousB').innerHTML = res['previousB'];
+                }
+            });
+        }
+    </script>
+  </body>
+</html>
+<script>
+var iterator = 0;
+var canvas = document.getElementById('updating-chart'),
+    ctx = canvas.getContext('2d'),
+    startingData = {
+      labels: [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+      datasets: [
+          {
+              fillColor: "rgba(0,0,255,.2)",
+              strokeColor: "rgba(0,0,255,1)",
+              pointColor: "rgba(0,0,255,1)",
+              pointStrokeColor: "#fff",
+              data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+          },
+          {
+              fillColor: "rgba(0,255,0,.2)",
+              strokeColor: "rgba(0,255,0,1)",
+              pointColor: "rgba(0,255,0,1)",
+              pointStrokeColor: "#fff",
+              data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+          }
+      ]
+    },
+    latestLabel = startingData.labels[20];
+
+  var updatingChart = new Chart(ctx).Line(startingData, {
+        animationSteps: 15, 
+        scaleOverride : true,
+        scaleSteps : 10,
+        scaleStepWidth : 10,
+        scaleStartValue : 0 });
+
+  setInterval(function(){
+    updatingChart.addData([document.getElementById('currentA').innerHTML, document.getElementById('currentB').innerHTML,], ++iterator);
+    updatingChart.removeData();
+  }, 1000);
+</script>

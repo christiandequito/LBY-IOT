@@ -78,9 +78,9 @@ void loop() {
     s.toCharArray(cStringArr, s.length() + 1);
     pub(mqtt_arduino_one, cStringArr);
   }
-  
-  delay(2000);
+
   mqttLoop();
+  delay(2000);
 }
 
 //check if distance is within the threshold
@@ -92,6 +92,7 @@ boolean checkDistance(int distance){
   }
 }
 
+// hindi ba dapat parang cross sila?
 void green(){
   digitalWrite(r1_redLight, LOW);
   digitalWrite(r1_greenLight, HIGH);

@@ -12,7 +12,7 @@
         <div class="container">
 
             <div class="left"> 
-                <button type="button" onclick="switch()">Switch</button> 
+                <button type="button" onclick="_switch()">Switch</button> 
 
             </div>
             
@@ -22,8 +22,8 @@
                     <div> Road 1 </div>
     
                     <div class="light"> 
-                        <div class="red" > </div>
-                        <div class="green"> </div>
+                        <div class="red" id="redOne"> </div>
+                        <div class="green" id="greenOne"> </div>
                     </div>
     
                     <div class="timer"> 
@@ -34,8 +34,8 @@
                     <div> Road 2 </div>
     
                     <div class="light">
-                        <div class="red"> </div>
-                        <div class="green"> </div>    
+                        <div class="red" id="redTwo"> </div>
+                        <div class="green" id="greenTwo"> </div>    
                     </div>
 
                     <div class="timer"> 
@@ -46,6 +46,7 @@
             </div>
             
         </div>
+		<script type='text/javascript' src="external/js/jquery.min.js" ></script>
 		<script>
 			setInterval(function(){reloader();},1000);
 
@@ -61,7 +62,7 @@
                 }
             });
 			
-			function switch(){
+			function _switch(){
 				$.ajax({url: '/switch', 
 					success: function(result){}
 				});

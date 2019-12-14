@@ -6,7 +6,7 @@
 byte mac[] = {0xDE,0xED,0xBA,0xFE,0xFE,0x01}; 
 //IPAddress ip(192, 168, 0, 37);
 // IP Address of your Broker Computer, replace the '??' with the last octet
-const IPAddress server(10, 200, 180, 9); 
+const IPAddress server(10, 200, 180, 5); 
 const char deviceID[] = "ArduinoOne";
 
 EthernetClient ethClient; 
@@ -46,7 +46,7 @@ void reconnect() {
         Serial.println("Connected"); 
         client.publish("outTopic", "Connected"); 
         //                            ------------------CHANGE----------------
-        client.subscribe(mqtt_controller);
+        client.subscribe(mqtt_arduino_one);
         
       } else { 
         Serial.print("Failed, rc="); 

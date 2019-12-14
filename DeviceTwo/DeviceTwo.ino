@@ -6,10 +6,10 @@ int r1_redLight = 2;
 int r1_greenLight = 3;
 int r2_redLight = 4;
 int r2_greenLight = 5;
-int d1_trigPin = 8;
-int d1_echoPin = 9;
-int d2_trigPin = 10;
-int d2_echoPin = 11;
+int d1_trigPin = 6;
+int d1_echoPin = 7;
+int d2_trigPin = 8;
+int d2_echoPin = 9;
 int roadOneState;
 int roadTwoState;
 
@@ -28,10 +28,6 @@ void setup() {
   pinMode(d1_echoPin,INPUT);
   pinMode(d2_trigPin,OUTPUT);
   pinMode(d2_echoPin,INPUT);
-  digitalWrite(r1_redLight, HIGH);
-  digitalWrite(r2_redLight, HIGH);
-  digitalWrite(r1_greenLight, HIGH);
-  digitalWrite(r2_greenLight, HIGH);
   
   Serial.begin(9600);
 
@@ -84,9 +80,9 @@ void loop() {
     s.toCharArray(cStringArr, s.length() + 1);
     pub(mqtt_arduino_two, cStringArr);
   }
-  
-  delay(2000);
+
   mqttLoop();
+  delay(2000);
 }
 
 //check if distance is within the threshold

@@ -6,7 +6,7 @@
 byte mac[] = {0xDE,0xED,0xBA,0xFE,0xFE,0x01}; 
 //IPAddress ip(192, 168, 0, 37);
 // IP Address of your Broker Computer, replace the '??' with the last octet
-const IPAddress server(10, 200, 180, 5); 
+const IPAddress server(192, 168, 1, 7); 
 const char deviceID[] = "ArduinoOne";
 
 EthernetClient ethClient; 

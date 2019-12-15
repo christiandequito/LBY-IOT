@@ -9,7 +9,7 @@ import time
 import json
 
 # GLOBAL VARIABLE SETUP
-ipadd = "10.200.180.5"
+ipadd = "192.168.1.7"
 arduinoOneTopic = "/device/one"
 arduinoTwoTopic = "/device/two"
 arduinoAllTopic = "/device/all"
@@ -27,7 +27,7 @@ def on_message(client, userdata, msg):
         global mqttMsg
         mqttMsg = msg.payload.decode()
         #FOR DEBUGGING
-        print(countdown);
+        #print(countdown);
         #print ("Topic:", str(msg.topic))
         #print ("Message:", str(msg.payload.decode()))
         #print(mqttRead)
@@ -142,6 +142,7 @@ def evaluate(msg):
         publish_change()
         
 def timer(delay):
+        global countdown
         for x in range(delay,0,-1):
                 #update timer displayed in web
                 countdown = x

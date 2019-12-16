@@ -1,5 +1,5 @@
 html, body {
-<<<<<<< HEAD
+
 				background-image: url("road.png");
 				background-repeat:no-repeat;
 				background-size:cover;
@@ -101,12 +101,6 @@ html, body {
 				height: 80%;
 				width: 80%;
 			  }
-=======
-    background-color: #77C3EC;
-    font-family: 'Segoe UI';
-    height: 94vh;
-    width: 94hh;
-}   
 
 .container {
     display: flex;
@@ -170,5 +164,3 @@ html, body {
     width: 15%;
     background-color: bisque;
     border-radius: 5%;
-}
->>>>>>> parent of ea36171... FROM RHEI

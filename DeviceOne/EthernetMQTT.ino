@@ -6,33 +6,34 @@
 byte mac[] = {0xDE,0xED,0xBA,0xFE,0xFE,0x01}; 
 //IPAddress ip(192, 168, 0, 37);
 // IP Address of your Broker Computer, replace the '??' with the last octet
-const IPAddress server(192, 168, 1, 7); 
+const IPAddress server(10,200,180,1); 
 const char deviceID[] = "ArduinoOne";
 
 EthernetClient ethClient; 
 PubSubClient client(ethClient);
 
 // MQTT topic on the broker (Uncomment only one)
-extern const char mqtt_arduino_one[]; 
+extern const char mqtt_arduino_one_out[];
+extern const char mqtt_arduino_one_in[]; 
 //const char mqtt_arduino_two[] = "/device/two"; ------------------CHANGE----------------
 const char mqtt_controller[] = "/web/control";
 
 //char msg[64];
-char msg[64];
+char message[64];
 char topic[32];
 
 void callback(char* topic, byte* payload, unsigned int length) { 
-  memcpy(msg, payload, length);
-  msg[length] = '\0';
+  memcpy(message, payload, length);
+  message[length] = '\0';
   //FOR DEBUGGING
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
-  Serial.println(msg);
+  Serial.println(message);
 
-  if(strcmp(msg, "GREEN")==0){
+  if(strcmp(message, "GREEN")==0){
     green();
-  }else if(strcmp(msg, "RED")==0){
+  }else if(strcmp(message, "RED")==0){
     red();
   }
 } 
@@ -46,8 +47,8 @@ void reconnect() {
         Serial.println("Connected"); 
         client.publish("outTopic", "Connected"); 
         //                            ------------------CHANGE----------------
-        client.subscribe(mqtt_arduino_one);
-        
+        //client.subscribe(mqtt_arduino_one_out);
+        client.subscribe(mqtt_arduino_one_in);
       } else { 
         Serial.print("Failed, rc="); 
         Serial.print(client.state()); 

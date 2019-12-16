@@ -1,4 +1,5 @@
-const char mqtt_arduino_one[] = "/device/one"; 
+const char mqtt_arduino_one_out[] = "/device/one/out"; 
+const char mqtt_arduino_one_in[] = "/device/one/in"; 
 //const char mqtt_arduino_two[] = "/device/two"; ------------------CHANGE----------------
 
 int r1_redLight = 2;
@@ -11,6 +12,7 @@ int d2_trigPin = 8;
 int d2_echoPin = 9;
 int roadOneState;
 int roadTwoState;
+String prevState = "";
 
 void connectionSetup();
 void reconnect();
@@ -28,7 +30,6 @@ void setup() {
   pinMode(d2_trigPin,OUTPUT);
   pinMode(d2_echoPin,INPUT);
   Serial.begin(9600);
-
   //initially light up road 1
   connectionSetup();
 }
@@ -70,13 +71,21 @@ void loop() {
     String s = "CAR";
     char cStringArr[10]; 
     s.toCharArray(cStringArr, s.length() + 1);
-    pub(mqtt_arduino_one, cStringArr);
+    if(prevState != s){
+      prevState = s;
+      pub(mqtt_arduino_one_out, cStringArr);
+    }
+    
   }else if(!checkDistance(r1distance) && !checkDistance(r2distance)){
     //                            ------------------CHANGE----------------
     String s = "NONE";
     char cStringArr[10];
     s.toCharArray(cStringArr, s.length() + 1);
-    pub(mqtt_arduino_one, cStringArr);
+//    pub(mqtt_arduino_one_out, cStringArr);
+    if(prevState != s){
+      prevState = s;
+      pub(mqtt_arduino_one_out, cStringArr);
+    }
   }
 
   mqttLoop();

@@ -9,12 +9,17 @@ import time
 import json
 
 # GLOBAL VARIABLE SETUP
-ipadd = "192.168.1.7"
-arduinoOneTopic = "/device/one"
-arduinoTwoTopic = "/device/two"
-arduinoAllTopic = "/device/all"
+ipadd = "10.200.180.1"
+arduinoOneOutTopic = "/device/one/out"
+arduinoOneInTopic = "/device/one/in"
+arduinoTwoOutTopic = "/device/two/out"
+arduinoTwoInTopic = "/device/two/in"
 mqttMsg = ""
-
+isProcessing = False
+roadOneHasValue = False
+roadTwoHasValue = False
+roadOneValue = ""
+roadTwoValue = ""
 countdown = 0
 roadOneState = False
 roadTwoState = False
@@ -25,22 +30,55 @@ def on_connect(client, userdata, rc):
    
 def on_message(client, userdata, msg):
         global mqttMsg
+        global isProcessing
+        global roadOneHasValue
+        global roadOneValue
+        global roadTwoHasValue
+        global roadTwoValue
+        
         mqttMsg = msg.payload.decode()
+        mqttTopic = str(msg.topic)
         #FOR DEBUGGING
         #print(countdown);
         #print ("Topic:", str(msg.topic))
         #print ("Message:", str(msg.payload.decode()))
-        #print(mqttRead)
-
-        evaluate(msg);
+        # GET BOTH VALUES BEFORE PROCEEDING
+        
+        if(mqttTopic == arduinoOneOutTopic and not roadOneHasValue):
+                print("NIIIIIIIIIIICEEEE")
+                roadOneHasValue = True
+                roadOneValue = mqttMsg
+                print(roadOneValue)
+                print(roadOneHasValue)
+                print(roadTwoHasValue)
+                print(isProcessing)
+                if(roadOneHasValue and roadTwoHasValue and not isProcessing):
+                        print("WOOOOOOOOOOOOHHHH")
+                        isProcessing = True
+                        evaluate()
+        elif(mqttTopic == arduinoTwoOutTopic and not roadTwoHasValue):
+                print("OOOOOONNNNEEE")
+                roadTwoHasValue = True
+                roadTwoValue = mqttMsg
+                print(roadTwoValue)
+                print(roadOneHasValue)
+                print(roadTwoHasValue)
+                print(isProcessing)
+                if(roadOneHasValue and roadTwoHasValue and not isProcessing):
+                        print("WOOOOOOOOOOOOHHHH")
+                        isProcessing = True
+                        evaluate()
+        
+        
 
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 client.connect(ipadd,1883,60)
-client.subscribe(arduinoOneTopic)
-client.subscribe(arduinoTwoTopic)
-client.subscribe(arduinoAllTopic)
+client.subscribe(arduinoOneOutTopic)
+client.subscribe(arduinoTwoOutTopic)
+#client.subscribe(arduinoOneInTopic)
+#client.subscribe(arduinoTwoInTopic)
 client.loop_start()
 mqttc = mqtt.Client("Python Pub")
 mqttc.connect(ipadd, 1883)
@@ -51,14 +89,14 @@ def readerFunction(request):
 
         JSONer['countdown'] = countdown
         if(currentRoadState == 1):
-                publish_change()
+                #publish_change()
                 JSONer['greenOne'] = 'green'
                 JSONer['redOne'] = 'black'
                 JSONer['greenTwo'] = 'black'
                 JSONer['redTwo'] = 'red'
                 
         elif(currentRoadState == 2):
-                publish_change()
+                #publish_change()
                 JSONer['greenOne'] = 'black'
                 JSONer['redOne'] = 'red'
                 JSONer['greenTwo'] = 'green'
@@ -67,44 +105,71 @@ def readerFunction(request):
         return HttpResponse(json.dumps(JSONer))
 	# time.sleep(2)
 
+
+
 def publish_change():
         global currentRoadState
+        global isProcessing
+        global roadOneHasValue
+        global roadTwoHasValue
         if(currentRoadState == 1):
+                '''
                 if(roadTwoState and not roadOneState):
-                        mqttc.publish(arduinoOneTopic, "RED")                        
-                        mqttc.publish(arduinoTwoTopic, "GREEN")
+                        print("WOW1")
+                        mqttc.publish(arduinoOneInTopic, "RED")                        
+                        mqttc.publish(arduinoTwoInTopic, "GREEN")
+                        print("WOW2")
                         currentRoadState = 2
+                '''
+                if(not roadTwoState and not roadOneState):
+                        print("HANEEEP1")
+                        #timer 5 sec
+                        
+                        mqttc.publish(arduinoOneInTopic, "RED")
+                        mqttc.publish(arduinoTwoInTopic, "GREEN")
+                        currentRoadState = 2
+                        timer(5)
+                        print("HANEEEP2")
+                '''
                 elif(roadTwoState and roadOneState):
-                        #timer 3 sec
-                        timer(3)
-                        mqttc.publish(arduinoOneTopic, "RED")
-                        mqttc.publish(arduinoTwoTopic, "GREEN")
-                        currentRoadState = 2
-                elif(not roadTwoState and not roadOneState):
+                        print("TALAGA TOOLLL")
                         #timer 5 sec
                         timer(5)
-                        mqttc.publish(arduinoOneTopic, "RED")
-                        mqttc.publish(arduinoTwoTopic, "GREEN")
+                        mqttc.publish(arduinoOneInTopic, "RED")
+                        mqttc.publish(arduinoTwoInTopic, "GREEN")
                         currentRoadState = 2
+                '''
+                
         elif(currentRoadState == 2):
+                '''
                 if(roadOneState and not roadTwoState):
-                        mqttc.publish(arduinoTwoTopic, "RED")
-                        mqttc.publish(arduinoOneTopic, "GREEN")
+                        print("WOW1")
+                        mqttc.publish(arduinoTwoInTopic, "RED")
+                        mqttc.publish(arduinoOneInTopic, "GREEN")
                         currentRoadState = 1
-                elif(roadOneState and roadTwoState):
-                        #timer 3 sec
-                        timer(3)
-                        mqttc.publish(arduinoTwoTopic, "RED")
-                        mqttc.publish(arduinoOneTopic, "GREEN")
-                        currentRoadState = 1
-                elif(not roadOneState and not roadTwoState):
+                        print("WOW2")
+                '''
+                if(not roadOneState and not roadTwoState):
+                        print("HANEEEP1")
                         #timer 5 sec
                         timer(5)
-                        mqttc.publish(arduinoTwoTopic, "RED")
-                        mqttc.publish(arduinoOneTopic, "GREEN")
+                        mqttc.publish(arduinoTwoInTopic, "RED")
+                        mqttc.publish(arduinoOneInTopic, "GREEN")
                         currentRoadState = 1
+                        print("HANEEEP2")
+                '''
+                elif(roadOneState and roadTwoState):
+                        print("TALAGA TOOLLL")
+                        #timer 5 sec
+                        timer(5)
+                        mqttc.publish(arduinoTwoInTopic, "RED")
+                        mqttc.publish(arduinoOneInTopic, "GREEN")
+                        currentRoadState = 1
+                '''
+        isProcessing = False
+        roadOneHasValue = False
+        roadTwoHasValue = False
 
-        timer(1)
 
 def switch(request):
         global roadOneState
@@ -119,33 +184,32 @@ def switch(request):
                 roadTwoState = False
                 roadOneState = True
                 currentRoadState = 1
-                
-        publish_change()
+        #publish_change()
         return HttpResponse()
 
-def evaluate(msg):
+def evaluate():
         global roadOneState
         global roadTwoState
-        
-        if(str(msg.payload.decode()) == "CAR" and str(msg.topic()) == "/device/one"):
+        if(roadOneValue == "CAR"):
                 roadOneState = True
-        elif(str(msg.payload.decode()) == "NONE" and str(msg.topic()) == "/device/one"):
+        elif(roadOneValue == "NONE"):
                 roadOneState = False
-        elif(str(msg.payload.decode()) == "CAR" and str(msg.topic()) == "/device/two"):
+        if(roadTwoValue == "CAR"):
                 roadTwoState = True
-        elif(str(msg.payload.decode()) == "NONE" and str(msg.topic()) == "/device/two"):
+        elif(roadTwoValue == "NONE"):
                 roadTwoState = False
 
-        print("roadOneState: ", roadOneState)
-        print("roadTwoState: ", roadTwoState)
-        print("currentRoadState: ", currentRoadState)
+        #print("roadOneState: ", roadOneState)
+        #print("roadTwoState: ", roadTwoState)
+        #print("currentRoadState: ", currentRoadState)
         publish_change()
-        
+
 def timer(delay):
         global countdown
         for x in range(delay,0,-1):
                 #update timer displayed in web
                 countdown = x
+                print(countdown)
                 time.sleep(1);
                 
 def mainPage(request):

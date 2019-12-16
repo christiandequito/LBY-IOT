@@ -140,7 +140,7 @@ void loop(){
   }
   
   client.loop();
-  delay(200);
+  delay(2000);
 }
 
 //check if distance is within the threshold

@@ -119,14 +119,9 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link type="text/css" href="{% static 'css/home.css' %}" rel="stylesheet" />
 		 -->
-        <link rel="stylesheet"
-        type="text/css"
-        href="external/css/home.css">
-
     </head>
 
     <body>
-
         <div class="container">
             <div class="high"> 
                 <div class="box"> 
@@ -154,77 +149,10 @@
                     </div>
                 </div>
                 <div class="timer">
-
-            <div class="left"> 
-                <button type="button" onclick="_switch()">Switch</button> 
-
+                </div>
             </div>
-            
-            <div class="right"> 
-
-                <div class="upper box">
-                    <div> Road 1 </div>
-    
-                    <div class="light"> 
-                        <div class="red" id="redOne"> </div>
-                        <div class="green" id="greenOne"> </div>
-                    </div>
-    
-                    <div class="timer"> 
-                        <div class="time" id='countdown'> {{ countdown }} </div>
-                    </div>
-                </div>
-                <div class="lower box">
-                    <div> Road 2 </div>
-    
-                    <div class="light">
-                        <div class="red" id="redTwo"> </div>
-                        <div class="green" id="greenTwo"> </div>    
-                    </div>
-
-                    <div class="timer"> 
-                        <div class="time"> Timer</div>
-                    </div> 
-                </div>
-
-            <div class="left"> 
-                <button type="button" onclick="_switch()">Switch</button> 
-
-            </div>
-            
-            <div class="right"> 
-
-                <div class="upper box">
-                    <div> Road 1 </div>
-    
-                    <div class="light"> 
-                        <div class="red" id="redOne"> </div>
-                        <div class="green" id="greenOne"> </div>
-                    </div>
-    
-                    <div class="timer"> 
-                        <div class="time" id='countdown'> {{ countdown }} </div>
-                    </div>
-                </div>
-                <div class="lower box">
-                    <div> Road 2 </div>
-    
-                    <div class="light">
-                        <div class="red" id="redTwo"> </div>
-                        <div class="green" id="greenTwo"> </div>    
-                    </div>
-
-                    <div class="timer"> 
-                        <div class="time"> Timer</div>
-                    </div> 
-                </div>
-
-            </div>
-            
         </div>
-		<script type='text/javascript' src="external/js/jquery.min.js" ></script>
-		<script>
-			setInterval(function(){reloader();},1000);
+    </body>
 
     <script type='text/javascript' src="external/js/jquery.min.js" ></script>
 
@@ -263,27 +191,7 @@
 		function switchlight(){
             $.ajax({url: '/switchlight/', 
                 success: function(result){}
-			function reloader(){
-            $.ajax({url: '/readerFunction', 
-                success: function(result){
-                    var res = JSON.parse(result);
-                    document.getElementById('countdown').innerHTML = res['countdown'];
-                    document.getElementById('greenOne').innerHTML = res['greenOne'];
-                    document.getElementById('redOne').innerHTML = res['redOne'];
-                    document.getElementById('greenTwo').innerHTML = res['greenTwo'];
-                    document.getElementById('redTwo').innerHTML = res['redTwo'];
-                }
             });
-			
-			function _switch(){
-				$.ajax({url: '/switch', 
-					success: function(result){}
-				});
-			}
         }
     </script>
-		</script>
-    </body>
-		</script>
-    </body>
 </html>

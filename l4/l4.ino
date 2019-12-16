@@ -6,7 +6,7 @@ byte mac[] = {0xDE,0xED,0xBA,0xFE,0xFE,0x01};
 // IP Address of the Gizduino-IOT, replace the '?' with your group number 
 //IPAddress ip(10, 200, 180, 199);
 // IP Address of your Broker Computer, replace the '??' with the last octet
-IPAddress server(192,168,1,7); 
+IPAddress server(10, 200, 180, 12); 
 
 int r1_redLight = 2;
 int r1_greenLight = 3;

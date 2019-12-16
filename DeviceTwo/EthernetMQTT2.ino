@@ -13,10 +13,9 @@ EthernetClient ethClient;
 PubSubClient client(ethClient);
 
 // MQTT topic on the broker (Uncomment only one)
-//extern const char mqtt_arduino_one[]; 
 extern const char mqtt_arduino_two_out[];
 extern const char mqtt_arduino_two_in[]; 
-//------------------CHANGE----------------
+//const char mqtt_arduino_two[] = "/device/two"; ------------------CHANGE----------------
 const char mqtt_controller[] = "/web/control";
 
 //char msg[64];
@@ -48,7 +47,7 @@ void reconnect() {
         Serial.println("Connected"); 
         client.publish("outTopic", "Connected"); 
         //                            ------------------CHANGE----------------
-        //client.subscribe(mqtt_arduino_two_out);
+        //client.subscribe(mqtt_arduino_one_out);
         client.subscribe(mqtt_arduino_two_in);
       } else { 
         Serial.print("Failed, rc="); 

@@ -152,10 +152,11 @@ def publish_change():
                 if(not roadOneState and not roadTwoState):
                         print("HANEEEP1")
                         #timer 5 sec
-                        timer(5)
+                        
                         mqttc.publish(arduinoTwoInTopic, "RED")
                         mqttc.publish(arduinoOneInTopic, "GREEN")
                         currentRoadState = 1
+                        timer(5)
                         print("HANEEEP2")
                 '''
                 elif(roadOneState and roadTwoState):

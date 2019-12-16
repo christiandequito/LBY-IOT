@@ -3,7 +3,7 @@
 #include <PubSubClient.h> 
 
 // MAC Address of the Gizduino-IOT, replace the '?' with your group number
-byte mac[] = {0xDE,0xED,0xBA,0xFE,0xFE,0x01}; 
+byte mac[] = {0xDE,0xED,0xBA,0xFE,0xFE,0x02}; 
 //IPAddress ip(192, 168, 0, 37);
 // IP Address of your Broker Computer, replace the '??' with the last octet
 const IPAddress server(10,200,180,1); 

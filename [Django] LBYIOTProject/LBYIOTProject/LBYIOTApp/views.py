@@ -43,7 +43,6 @@ def on_message(client, userdata, msg):
         #print ("Topic:", str(msg.topic))
         #print ("Message:", str(msg.payload.decode()))
         # GET BOTH VALUES BEFORE PROCEEDING
-        
         if(mqttTopic == arduinoOneOutTopic and not roadOneHasValue):
                 print("NIIIIIIIIIIICEEEE")
                 roadOneHasValue = True
@@ -113,24 +112,19 @@ def publish_change():
         global roadOneHasValue
         global roadTwoHasValue
         if(currentRoadState == 1):
-                '''
                 if(roadTwoState and not roadOneState):
                         print("WOW1")
                         mqttc.publish(arduinoOneInTopic, "RED")                        
                         mqttc.publish(arduinoTwoInTopic, "GREEN")
                         print("WOW2")
                         currentRoadState = 2
-                '''
-                if(not roadTwoState and not roadOneState):
+                elif(not roadTwoState and not roadOneState):
                         print("HANEEEP1")
                         #timer 5 sec
-                        
+                        timer(5)
                         mqttc.publish(arduinoOneInTopic, "RED")
                         mqttc.publish(arduinoTwoInTopic, "GREEN")
                         currentRoadState = 2
-                        timer(5)
-                        print("HANEEEP2")
-                '''
                 elif(roadTwoState and roadOneState):
                         print("TALAGA TOOLLL")
                         #timer 5 sec
@@ -138,27 +132,23 @@ def publish_change():
                         mqttc.publish(arduinoOneInTopic, "RED")
                         mqttc.publish(arduinoTwoInTopic, "GREEN")
                         currentRoadState = 2
-                '''
                 
         elif(currentRoadState == 2):
-                '''
                 if(roadOneState and not roadTwoState):
                         print("WOW1")
                         mqttc.publish(arduinoTwoInTopic, "RED")
                         mqttc.publish(arduinoOneInTopic, "GREEN")
                         currentRoadState = 1
                         print("WOW2")
-                '''
-                if(not roadOneState and not roadTwoState):
+                elif(not roadOneState and not roadTwoState):
                         print("HANEEEP1")
                         #timer 5 sec
-                        
+                        timer(5)
                         mqttc.publish(arduinoTwoInTopic, "RED")
                         mqttc.publish(arduinoOneInTopic, "GREEN")
                         currentRoadState = 1
-                        timer(5)
+                        
                         print("HANEEEP2")
-                '''
                 elif(roadOneState and roadTwoState):
                         print("TALAGA TOOLLL")
                         #timer 5 sec
@@ -166,7 +156,6 @@ def publish_change():
                         mqttc.publish(arduinoTwoInTopic, "RED")
                         mqttc.publish(arduinoOneInTopic, "GREEN")
                         currentRoadState = 1
-                '''
         isProcessing = False
         roadOneHasValue = False
         roadTwoHasValue = False
@@ -212,8 +201,19 @@ def timer(delay):
                 countdown = x
                 print(countdown)
                 time.sleep(1);
+
+def timer_thread( threadName, delay):
+        count = 0
+        while count < 5:
+                time.sleep(delay)
+                count += 1
+        publish_change()
+
                 
 def mainPage(request):
+	#print("TESTING>>>>>")
+	#mqttc.publish(arduinoOneInTopic, "RED")
+	#mqttc.publish(arduinoTwoInTopic, "GREEN")
 	curDateTime = datetime.datetime.now().strftime("%B %d, %Y, %I:%M:%S %p")
 	return render(request, 'home.html', {'curDateTime': curDateTime})
 

@@ -81,7 +81,7 @@ void loop() {
     String s = "NONE";
     char cStringArr[10];
     s.toCharArray(cStringArr, s.length() + 1);
-//    pub(mqtt_arduino_one_out, cStringArr);
+//    pub(mqtt_arduino_two_out, cStringArr);
     if(prevState != s){
       prevState = s;
       pub(mqtt_arduino_two_out, cStringArr);

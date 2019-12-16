@@ -30,6 +30,7 @@ void setup() {
   pinMode(d2_trigPin,OUTPUT);
   pinMode(d2_echoPin,INPUT);
   Serial.begin(9600);
+
   //initially light up road 1
   connectionSetup();
 }
@@ -71,6 +72,7 @@ void loop() {
     String s = "CAR";
     char cStringArr[10]; 
     s.toCharArray(cStringArr, s.length() + 1);
+//    pub(mqtt_arduino_one_out, cStringArr);
     if(prevState != s){
       prevState = s;
       pub(mqtt_arduino_one_out, cStringArr);

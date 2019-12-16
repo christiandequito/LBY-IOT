@@ -1,6 +1,7 @@
 {% load static %}
 <html>
     <head>
+<<<<<<< HEAD
 	<style>
 	 html {
 				// background-image: url("road.png");
@@ -119,10 +120,19 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link type="text/css" href="{% static 'css/home.css' %}" rel="stylesheet" />
 		 -->
+=======
+        <link rel="stylesheet"
+        type="text/css"
+        href="external/css/home.css">
+
+		
+>>>>>>> parent of ea36171... FROM RHEI
     </head>
 
     <body>
+
         <div class="container">
+<<<<<<< HEAD
             <div class="high"> 
                 <div class="box"> 
                     <h2> Road 1 </h2>
@@ -149,11 +159,49 @@
                     </div>
                 </div>
                 <div class="timer">
-                </div>
-            </div>
-        </div>
-    </body>
+=======
 
+            <div class="left"> 
+                <button type="button" onclick="_switch()">Switch</button> 
+
+            </div>
+            
+            <div class="right"> 
+
+                <div class="upper box">
+                    <div> Road 1 </div>
+    
+                    <div class="light"> 
+                        <div class="red" id="redOne"> </div>
+                        <div class="green" id="greenOne"> </div>
+                    </div>
+    
+                    <div class="timer"> 
+                        <div class="time" id='countdown'> {{ countdown }} </div>
+                    </div>
+                </div>
+                <div class="lower box">
+                    <div> Road 2 </div>
+    
+                    <div class="light">
+                        <div class="red" id="redTwo"> </div>
+                        <div class="green" id="greenTwo"> </div>    
+                    </div>
+
+                    <div class="timer"> 
+                        <div class="time"> Timer</div>
+                    </div> 
+>>>>>>> parent of ea36171... FROM RHEI
+                </div>
+
+            </div>
+            
+        </div>
+		<script type='text/javascript' src="external/js/jquery.min.js" ></script>
+		<script>
+			setInterval(function(){reloader();},1000);
+
+<<<<<<< HEAD
     <script type='text/javascript' src="external/js/jquery.min.js" ></script>
 
     <script>
@@ -191,7 +239,30 @@
 		function switchlight(){
             $.ajax({url: '/switchlight/', 
                 success: function(result){}
+=======
+			function reloader(){
+            $.ajax({url: '/readerFunction', 
+                success: function(result){
+                    var res = JSON.parse(result);
+                    document.getElementById('countdown').innerHTML = res['countdown'];
+                    document.getElementById('greenOne').innerHTML = res['greenOne'];
+                    document.getElementById('redOne').innerHTML = res['redOne'];
+                    document.getElementById('greenTwo').innerHTML = res['greenTwo'];
+                    document.getElementById('redTwo').innerHTML = res['redTwo'];
+                }
+>>>>>>> parent of ea36171... FROM RHEI
             });
+			
+			function _switch(){
+				$.ajax({url: '/switch', 
+					success: function(result){}
+				});
+			}
         }
+<<<<<<< HEAD
     </script>
+=======
+		</script>
+    </body>
+>>>>>>> parent of ea36171... FROM RHEI
 </html>

@@ -2,72 +2,66 @@
     <head>
         <link rel="stylesheet"
         type="text/css"
-        href="external/css/home.css">
+        href="home.css">
 
-		
     </head>
 
     <body>
-
         <div class="container">
-
-            <div class="left"> 
-                <button type="button" onclick="_switch()">Switch</button> 
-
-            </div>
-            
-            <div class="right"> 
-
-                <div class="upper box">
-                    <div> Road 1 </div>
-    
-                    <div class="light"> 
-                        <div class="red" id="redOne"> </div>
-                        <div class="green" id="greenOne"> </div>
-                    </div>
-    
-                    <div class="timer"> 
-                        <div class="time" id='countdown'> {{ countdown }} </div>
-                    </div>
-                </div>
-                <div class="lower box">
-                    <div> Road 2 </div>
-    
+            <div class="high"> 
+                <div class="box"> 
+                    <h2> Road 1 </h2>
                     <div class="light">
-                        <div class="red" id="redTwo"> </div>
-                        <div class="green" id="greenTwo"> </div>    
+                        <div class="red upper"> </div>
+                        <div class="green upper"> </div>
                     </div>
-
-                    <div class="timer"> 
-                        <div class="time"> Timer</div>
-                    </div> 
+                </div>
+                <div class="timer">
+                    <h3> Timer </h3>
+                    <div class="time"> TIME </div>
                 </div>
 
+                <button class="switch" type="button" onclick="_switch()">Switch</button>
             </div>
             
+            <div class="low">
+                <div class="box">
+                    <br> 
+                    <h2> Road 2 </h2>
+                    <div class="light">
+                        <div class="red lower"> </div>
+                        <div class="green lower"> </div>
+                    </div>
+                </div>
+                <div class="timer">
+                    <h3> Timer </h3>
+                    <div class="time"> TIME </div>
+                </div>
+            </div>
         </div>
-		<script type='text/javascript' src="external/js/jquery.min.js" ></script>
-		<script>
-			setInterval(function(){reloader();},1000);
-
-			function reloader(){
-            $.ajax({url: '/readerFunction', 
-                success: function(result){
-                    var res = JSON.parse(result);
-                    document.getElementById('countdown').innerHTML = res['countdown'];
-                    document.getElementById('greenOne').innerHTML = res['greenOne'];
-                    document.getElementById('redOne').innerHTML = res['redOne'];
-                    document.getElementById('greenTwo').innerHTML = res['greenTwo'];
-                    document.getElementById('redTwo').innerHTML = res['redTwo'];
-                }
-            });
-			
-			function _switch(){
-				$.ajax({url: '/switch', 
-					success: function(result){}
-				});
-			}
-        }
-		</script>
     </body>
+
+    <script type='text/javascript' src="external/js/jquery.min.js" ></script>
+
+    <script>
+        setInterval(function(){reloader();},1000);
+        function reloader(){
+        $.ajax({url: '/readerFunction', 
+            success: function(result){
+                var res = JSON.parse(result);
+                document.getElementById('countdown').innerHTML = res['countdown'];
+                document.getElementById('greenOne').innerHTML = res['greenOne'];
+                document.getElementById('redOne').innerHTML = res['redOne'];
+                document.getElementById('greenTwo').innerHTML = res['greenTwo'];
+                document.getElementById('redTwo').innerHTML = res['redTwo'];
+            }
+        });
+        
+        function _switch(){
+            $.ajax({url: '/switch', 
+                success: function(result){}
+            });
+        }
+    }
+    </script>
 </html>

@@ -1,47 +1,70 @@
 html, body {
-    background-color: #77C3EC;
+    background-image: url("background.png");
+    background-repeat:no-repeat;
+    background-size:cover;
     font-family: 'Segoe UI';
     height: 94vh;
     width: 94hh;
-}   
+}
 
 .container {
-    display: flex;
-    flex-direction: row;
-    height: 100%;
+    height: 80%;
     width: 100%;
-}
-
-
-.left {
-    display: flex;
-    height: 100%;
-    width: 20%;
-    justify-content: center;
-    align-items: center;
-}
-
-.right {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    width: 80%;
+    justify-content: space-evenly;
+}
+
+.high {
+    height: 50%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.low {
+    height: 50%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.timer {
+    height: 80%;
+    width: 20%;
+    align-items: baseline;
+    
+}
+
+.time {
+    background-color: #F05658;
+    height: 30%;
+    width: 50%;
+    border-radius: 4%;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    font-size: xx-large;
+}
+
+.switch {
+    background-color: #4D4D4D;
+    height: 20%;
+    width: 10%;
+    border: none;
+    color: whitesmoke;
+    border-radius: 4%;
 }
 
 .box {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    height: 50%;
-    width: 100%;
+    height: 100%;
+    width: 20%;
 }
 
 .light {
-    background-color: #42464B;
-    height: 90%;
-    width: 20%;
-    border-radius: 4%;
+    background-color: #4D4D4D;
+    height: 80%;
+    width: 60%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -49,22 +72,35 @@ html, body {
 }
 
 .red {
-    width: 40%;
-    height: 30%;
+    background-color: #EB0000;
+    height: 85px;
+    width: 85px;
     border-radius: 50%;
-    background-color: #EB102F;
+    /* box-shadow:
+        0 0 60px 30px #fff,  /* inner white 
+        0 0 100px 60px #f0f, /* middle magenta 
+        0 0 140px 90px #0ff; outer cyan */
 }
 
 .green {
-    width: 40%;
-    height: 30%;
+    background-color: #1BA751;
+    height: 85px;
+    width: 85px;
     border-radius: 50%;
-    background-color: #68BB59;
+    /* box-shadow:
+        0 0 60px 30px #fff,   inner white 
+        0 0 100px 60px #f0f, /* middle magenta 
+        0 0 140px 90px #0ff; /* outer cyan */
 }
 
-.timer {
-    height: 75%;
-    width: 15%;
-    background-color: bisque;
-    border-radius: 5%;
-}
+#countdown {
+    color: #F6F4F3;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: "Lato", sans-serif;
+    font-size: 1em;
+    letter-spacing: 5px;
+    margin-top: 5%;
+    height: 80%;
+    width: 80%;
+  }

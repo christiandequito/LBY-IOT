@@ -20,6 +20,6 @@ urlpatterns = [
     path('', views.mainPage, name='mainPage'),
     # path('getCurrentValue', views.getCurrentValue, name='getCurrentValue'),
     path('readerFunction', views.readerFunction, name='readerFunction'),
-    path('switch', views.switch, name='switch'),
+    path('switchlight/', views.switchlight, name='switchlight'),
     re_path(r'^(?P<url>.*)/$', views.errorPage, name='errorPage'),
 ]

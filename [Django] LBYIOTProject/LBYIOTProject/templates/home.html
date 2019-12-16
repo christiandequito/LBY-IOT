@@ -1,9 +1,124 @@
+{% load static %}
 <html>
     <head>
-        <link rel="stylesheet"
-        type="text/css"
-        href="home.css">
+	<style>
+	 html {
+				// background-image: url("road.png");
+				
+				font-family: 'Segoe UI';
+				height: 94vh;
+				width: 99hh;
+			}
+			
+			body {
+				background-image:url("/road.png");
+				background-repeat:no-repeat;
+				background-size:100%;
+			}
+		
+			.container {
+				height: 50%;
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-evenly;
+			}
 
+			.high {
+				height: 50%;
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+			}
+
+			.low {
+				height: 50%;
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+			}
+
+			.timer {
+				height: 200%;
+				width: 20%;
+				align-items: baseline;
+				font-size: 40px;
+				
+			}
+
+			.time {
+				background-color: #F05658;
+				height: 30%;
+				width: 50%;
+				border-radius: 4%;
+				color: white;
+				text-align: center;
+				vertical-align: middle;
+				font-size: 40px;
+			}
+
+			.switch {
+				background-color: #4D4D4D;
+				height: 20%;
+				width: 10%;
+				border: none;
+				color: whitesmoke;
+				border-radius: 4%;
+			}
+
+			.box {
+				height: 100%;
+				width: 20%;
+			}
+
+			.light {
+				background-color: #4D4D4D;
+				height: 80%;
+				width: 60%;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-evenly;
+				align-items: center;
+			}
+
+			.red {
+				background-color: #EB0000;
+				height: 85px;
+				width: 85px;
+				border-radius: 50%;
+				/* box-shadow:
+         0 0 60px 30px #fff,  /* inner white 
+        0 0 100px 60px #f0f,  /* middle magenta  
+        0 0 140px 90px #0ff; /* outer cyan */ 
+			}
+
+			.green {
+				background-color: #1BA751;
+				height: 85px;
+				width: 85px;
+				border-radius: 50%;
+			}
+
+			#countdown {
+				color: #F6F4F3;
+				text-align: center;
+				text-transform: uppercase;
+				font-family: "Lato", sans-serif;
+				font-size: 1em;
+				letter-spacing: 5px;
+				margin-top: 5%;
+				height: 80%;
+				width: 80%;
+			  }
+			  </style>
+	<!--
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<!-- Meta, title, CSS, favicons, etc.
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link type="text/css" href="{% static 'css/home.css' %}" rel="stylesheet" />
+		 -->
     </head>
 
     <body>
@@ -12,16 +127,16 @@
                 <div class="box"> 
                     <h2> Road 1 </h2>
                     <div class="light">
-                        <div class="red upper"> </div>
-                        <div class="green upper"> </div>
+                        <div class="red upper" id="redOne"> </div>
+                        <div class="green upper" id="greenOne"> </div>
                     </div>
                 </div>
                 <div class="timer">
                     <h3> Timer </h3>
-                    <div class="time"> TIME </div>
+                    <div class="time" id="countdown"> {{countdown}} </div>
                 </div>
 
-                <button class="switch" type="button" onclick="_switch()">Switch</button>
+                <button class="switch" type="button" onclick="switchlight()">Switch</button>
             </div>
             
             <div class="low">
@@ -29,13 +144,11 @@
                     <br> 
                     <h2> Road 2 </h2>
                     <div class="light">
-                        <div class="red lower"> </div>
-                        <div class="green lower"> </div>
+                        <div class="red lower" id="redTwo"> </div>
+                        <div class="green lower" id="greenTwo"> </div>
                     </div>
                 </div>
                 <div class="timer">
-                    <h3> Timer </h3>
-                    <div class="time"> TIME </div>
                 </div>
             </div>
         </div>
@@ -50,18 +163,35 @@
             success: function(result){
                 var res = JSON.parse(result);
                 document.getElementById('countdown').innerHTML = res['countdown'];
-                document.getElementById('greenOne').innerHTML = res['greenOne'];
-                document.getElementById('redOne').innerHTML = res['redOne'];
-                document.getElementById('greenTwo').innerHTML = res['greenTwo'];
-                document.getElementById('redTwo').innerHTML = res['redTwo'];
+				
+				document.getElementById('countdown').text = res['countdown']
+				
+                //document.getElementById('greenOne').innerHTML = res['greenOne'];
+				//document.getElementById('redOne').innerHTML = res['redOne'];
+                //document.getElementById('greenTwo').innerHTML = res['greenTwo'];
+                //document.getElementById('redTwo').innerHTML = res['redTwo'];
+				
+				if(res['greenOne'] === 'green' && res['redOne'] === 'black' && 
+					res['greenTwo'] === 'black' && res['redTwo'] === 'red') {
+					document.getElementById('greenOne').style.background='green';
+					document.getElementById('redOne').style.background='black';
+					document.getElementById('greenTwo').style.background='black';
+					document.getElementById('redTwo').style.background='red';
+				} else if(res['greenOne'] === 'black' && res['redOne'] === 'red' && 
+					res['greenTwo'] === 'green' && res['redTwo'] === 'black') {
+					document.getElementById('greenOne').style.background='black';
+					document.getElementById('redOne').style.background='red';
+					document.getElementById('greenTwo').style.background='green';
+					document.getElementById('redTwo').style.background='black';
+				}
             }
         });
-        
-        function _switch(){
-            $.ajax({url: '/switch', 
+		}
+		
+		function switchlight(){
+            $.ajax({url: '/switchlight/', 
                 success: function(result){}
             });
         }
-    }
     </script>
 </html>

@@ -139,12 +139,12 @@ void loop(){
   }
   
   client.loop();
-  delay(2000);
+  delay(200);
 }
 
 //check if distance is within the threshold
 boolean checkDistance(int distance){
-  if(distance > 4 && distance < 8){
+  if(distance > 3 && distance < 9){
     return true;
   } else {
     return false;
